@@ -1,0 +1,14 @@
+# Incluir archivos comunes
+include README.md
+include LICENSE
+include requirements.txt
+
+# Incluir todos los archivos Python en los directorios BKConnect, BKManager y BKModel
+recursive-include BKConnect *.py
+recursive-include BKManager *.py
+recursive-include BKModel *.py
+
+# Excluir archivos temporales o de compilación
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude __pycache__/
