@@ -24,7 +24,7 @@ setup(
         "Operating System :: OS Independent",
     ],
     packages=find_packages(),  # Encuentra todos los subpaquetes automáticamente
-    python_requires=">=3.11",  # Versión mínima de Python
+    python_requires=">=3.10",  # Versión mínima de Python
     install_requires=[
         "greenlet>=3.1.1",
         "psycopg2>=2.9.10",
