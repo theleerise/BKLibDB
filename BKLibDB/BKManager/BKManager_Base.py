@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# coding: utf-8
+
 from sqlalchemy.sql import text
 from BKLibDB.BKConnect import get_dbsess  # Para abrir sesiones
 
