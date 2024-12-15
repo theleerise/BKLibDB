@@ -49,7 +49,7 @@ class BKManager:
         return [row._asdict() for row in result]  # Usa _asdict() para convertir Row en dict
     
 
-    def fetch_as_model(self, sql, params=None):
+    def fetch_all(self, sql, params=None):
         """
         Ejecuta una consulta SQL y mapea los resultados al modelo.
 
