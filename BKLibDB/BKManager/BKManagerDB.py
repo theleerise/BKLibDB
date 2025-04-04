@@ -2,6 +2,7 @@
 # coding: utf-8
 
 from BKManager_Base import BKManager
+from abc import ABC, abstractmethod
 
 
 class BKManagerDB(BKManager):
@@ -37,6 +38,34 @@ class BKManagerDB(BKManager):
             else:
                 self.session.commit()  # Confirmar transacción si no hay errores
             self.session.close()  # Cerrar la sesión en cualquier caso
+    
+    @abstractmethod
+    def get_sql_query(self):
+        """
+        Debe devolver una tupla (sql: str, params: dict) para consultas SELECT.
+        """
+        pass
+
+    @abstractmethod
+    def get_sql_insert(self):
+        """
+        Debe devolver una tupla (sql: str, params: dict) para INSERT.
+        """
+        pass
+
+    @abstractmethod
+    def get_sql_update(self):
+        """
+        Debe devolver una tupla (sql: str, params: dict) para UPDATE.
+        """
+        pass
+
+    @abstractmethod
+    def get_sql_delete(self):
+        """
+        Debe devolver una tupla (sql: str, params: dict) para DELETE.
+        """
+        pass
 
     # CRUD con manejo implícito de transacciones y hooks
     def insert(self, sql, params):
@@ -50,6 +79,9 @@ class BKManagerDB(BKManager):
         Returns:
             int: Número de filas afectadas.
         """
+        if sql is None or params is None:
+            sql, params = self.get_sql_insert()
+            
         try:
             if hasattr(self, "before_insert"):
                 self.before_insert(params)  # Hook antes de la inserción
@@ -73,6 +105,9 @@ class BKManagerDB(BKManager):
         Returns:
             int: Número de filas afectadas.
         """
+        if sql is None or params is None:
+            sql, params = self.get_sql_insert()
+            
         try:
             if hasattr(self, "before_update"):
                 self.before_update(params)  # Hook antes de la actualización
@@ -96,6 +131,9 @@ class BKManagerDB(BKManager):
         Returns:
             int: Número de filas afectadas.
         """
+        if sql is None or params is None:
+            sql, params = self.get_sql_insert()
+            
         try:
             if hasattr(self, "before_delete"):
                 self.before_delete(params)  # Hook antes del borrado
