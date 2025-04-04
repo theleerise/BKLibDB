@@ -1,6 +1,15 @@
+# Dependencias para SQL y bases de datos NoSQL
 greenlet==3.1.1
-psycopg2==2.9.10
-pyodbc==5.2.0
+psycopg2==2.9.10        # PostgreSQL
+pyodbc==5.2.0           # SQL Server
+SQLAlchemy==2.0.36      # ORM para SQL
+
+# Dependencias para NoSQL
+pymongo==4.6.0          # MongoDB
+cassandra-driver==3.25.0  # Cassandra
+redis==5.0.1            # Redis
+neo4j==5.17.0           # Neo4j
+
+# Herramientas de soporte
 setuptools==75.6.0
-SQLAlchemy==2.0.36
 typing_extensions==4.12.2

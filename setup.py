@@ -6,12 +6,12 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="BKLibDB",  # Nombre del paquete
-    version="0.1.0",  # Versión inicial
+    version="0.2.0",  # Versión incrementada para reflejar las nuevas funcionalidades
     author="Elieser Castro",
     author_email="bkelidireccion@gmail.com",
     description=(
-        "Una librería que utiliza SQLAlchemy, pyodbc y otras dependencias "
-        "para generar manager y models con los cuales consultar bases de datos."
+        "Una librería que utiliza SQLAlchemy y otras dependencias "
+        "para generar managers y models que permiten consultar bases de datos SQL y NoSQL."
     ),
     long_description=long_description,  # Descripción larga desde README.md
     long_description_content_type="text/markdown",
@@ -22,15 +22,25 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.11",
         "Operating System :: OS Independent",
+        "Topic :: Database",
+        "Topic :: Software Development :: Libraries",
     ],
     packages=find_packages(),  # Encuentra todos los subpaquetes automáticamente
     python_requires=">=3.10",  # Versión mínima de Python
     install_requires=[
-        "greenlet>=3.1.1",
-        "psycopg2>=2.9.10",
-        "pyodbc>=5.2.0",
-        "SQLAlchemy>=2.0.36",
-        "typing_extensions>=4.12.2",
+        "greenlet>=3.1.1",           # Soporte para SQLAlchemy
+        "psycopg2>=2.9.10",          # PostgreSQL
+        "pyodbc>=5.2.0",             # SQL Server
+        "SQLAlchemy>=2.0.36",        # ORM para bases de datos relacionales
+        "pymongo>=4.6.0",            # MongoDB
+        "cassandra-driver>=3.25.0",  # Cassandra
+        "redis>=5.0.1",              # Redis
+        "neo4j>=5.17.0",             # Neo4j
+        "typing_extensions>=4.12.2", # Extensiones de tipado
     ],
     include_package_data=True,  # Incluye archivos adicionales en MANIFEST.in
+    project_urls={
+        "Source": "https://github.com/theleerise/BKLibDB.git",
+        "Bug Tracker": "https://github.com/theleerise/BKLibDB/issues",
+    },
 )

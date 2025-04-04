@@ -1,12 +1,13 @@
 # BKLibDB
 
-BKLibDB es una librería modular diseñada para simplificar la interacción con bases de datos en Python, utilizando SQLAlchemy. Ofrece una arquitectura extensible basada en modelos y managers que simplifican la realización de consultas, operaciones CRUD y manejo de lógica personalizada.
+BKLibDB es una librería modular diseñada para simplificar la interacción con bases de datos en Python, utilizando SQLAlchemy. Ahora, con soporte adicional para bases de datos **NoSQL**, BKLibDB se convierte en una herramienta integral para manejar bases de datos relacionales y no relacionales. Ofrece una arquitectura extensible basada en modelos y managers que simplifican la realización de consultas, operaciones CRUD y manejo de lógica personalizada.
 
 ---
 
 ## **Características**
 
-- Soporte para múltiples motores de bases de datos (PostgreSQL, SQLite, etc.).
+- Soporte para múltiples motores de bases de datos (PostgreSQL, SQLite, SQL Server, Oracle, etc.).
+- **Nuevo**: Soporte para bases de datos **NoSQL** (MongoDB, DynamoDB, etc.).
 - Estructura modular con modelos (`BKModel`) y managers (`BKManager`).
 - Conversión automática de resultados de consultas en modelos (objetos).
 - Métodos genéricos y personalizados para operaciones CRUD.
@@ -19,6 +20,9 @@ BKLibDB es una librería modular diseñada para simplificar la interacción con 
 
 - Python 3.8 o superior.
 - SQLAlchemy.
+- Motores específicos de bases de datos:
+   - **Relacionales**: psycopg2, pyodbc, etc.
+   - **NoSQL**: pymongo, boto3.
 
 ---
 
