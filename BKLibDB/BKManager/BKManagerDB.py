@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 
-from BKManager_Base import BKManager
+from BKLibDB.BKManager.BKManager_Base import BKManager
 from abc import ABC, abstractmethod
 
 
