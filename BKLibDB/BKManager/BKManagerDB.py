@@ -72,6 +72,20 @@ class BKManagerDB(BKManager):
         pass
 
     # CRUD con manejo implícito de transacciones y hooks
+    def getlist(self):
+        """
+        Ejecuta una consulta SELECT genérica usando get_sql_query.
+    
+        Returns:
+            list[BKModel]: Lista de instancias del modelo con los datos obtenidos.
+        """
+        try:
+            sql, params = self.get_sql_select()
+            return self.fetch_all(sql, params)
+        except Exception as e:
+            self.session.rollback()  # En caso de error, revierte la transacción
+            raise e
+    
     def insert(self, sql, params):
         """
         Ejecuta una inserción con manejo automático de transacciones.
