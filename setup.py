@@ -31,7 +31,7 @@ setup(
         "greenlet>=3.1.1",           # Soporte para SQLAlchemy
         "psycopg2>=2.9.10",          # PostgreSQL
         "pyodbc>=5.2.0",             # SQL Server
-        "oracledb>=3.1.0"            # Oracle database
+        "oracledb>=3.1.0",           # Oracle database
         "SQLAlchemy>=2.0.36",        # ORM para bases de datos relacionales
         "pymongo>=4.6.0",            # MongoDB
         "cassandra-driver>=3.25.0",  # Cassandra
