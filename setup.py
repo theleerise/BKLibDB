@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="BKLibDB",  # Nombre del paquete
-    version="0.2.0",  # Versión incrementada para reflejar las nuevas funcionalidades
+    version="0.3.0",  # Versión incrementada para reflejar las nuevas funcionalidades
     author="Elieser Castro",
     author_email="bkelidireccion@gmail.com",
     description=(
@@ -31,6 +31,7 @@ setup(
         "greenlet>=3.1.1",           # Soporte para SQLAlchemy
         "psycopg2>=2.9.10",          # PostgreSQL
         "pyodbc>=5.2.0",             # SQL Server
+        "oracledb>=3.1.0"            # Oracle database
         "SQLAlchemy>=2.0.36",        # ORM para bases de datos relacionales
         "pymongo>=4.6.0",            # MongoDB
         "cassandra-driver>=3.25.0",  # Cassandra
