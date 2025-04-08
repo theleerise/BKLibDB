@@ -71,7 +71,7 @@ def _type_connection(type_db, kwargs):
     chain_conn = f"{kwargs.username}:{kwargs.password}@{kwargs.host}:{kwargs.port}/{kwargs.database}"
     
     if type_db == "ORACLE":
-        db_uri = f"oracle+cx_oracle://{chain_conn}"
+        db_uri = f"oracle+oracledb://{chain_conn}"
         
     elif type_db == "POSTGRESQL":
         db_uri = f"postgresql+psycopg2://{chain_conn}"
