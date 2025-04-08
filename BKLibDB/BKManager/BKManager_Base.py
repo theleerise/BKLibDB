@@ -21,7 +21,7 @@ class BKManager:
         self.session = session
         self.model = model
 
-    def open_session(self, db_type, **kwargs):
+    def open_session(self, db_type, chain_connection, **kwargs):
         """
         Abre una nueva sesión con la base de datos.
 
@@ -32,7 +32,7 @@ class BKManager:
         Returns:
             sqlalchemy.orm.session.Session: Sesión abierta.
         """
-        return get_dbsess(type=db_type, **kwargs)
+        return get_dbsess(type=db_type, chain_connection=chain_connection, **kwargs)
 
     def execute_query(self, sql, params=None):
         """

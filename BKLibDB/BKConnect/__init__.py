@@ -6,7 +6,7 @@ from sqlalchemy.orm import sessionmaker
 from dataclasses import dataclass
 
 
-def get_dbconn(type, username=None, password=None, host=None, port=None, database=None):
+def get_dbconn(type, username=None, password=None, host=None, port=None, database=None, chain_connection=None):
     """
     Crea y devuelve un motor de conexión a una base de datos utilizando SQLAlchemy.
 
@@ -42,12 +42,12 @@ def get_dbconn(type, username=None, password=None, host=None, port=None, databas
         database: str = None
 
     conn_dict = ConnDict(username, password, host, port, database)
-    db_uri = _type_connection(type_db=type.upper(), kwargs=conn_dict)
+    db_uri = _type_connection(type_db=type.upper(), kwargs=conn_dict, chain_connection=chain_connection)
     engine = create_engine(db_uri)
     return engine
 
 
-def _type_connection(type_db, kwargs):
+def _type_connection(type_db, chain_connection=None, kwargs=None):
     """
     Genera la URI de conexión para diferentes tipos de bases de datos.
 
@@ -67,6 +67,8 @@ def _type_connection(type_db, kwargs):
     
     Note: ORACLE NO ACTIVADO
     """
+    if chain_connection:
+        return chain_connection
     
     chain_conn = f"{kwargs.username}:{kwargs.password}@{kwargs.host}:{kwargs.port}/{kwargs.database}"
     
@@ -88,7 +90,7 @@ def _type_connection(type_db, kwargs):
     return db_uri
 
 
-def get_dbsess(type, username=None, password=None, host=None, port=None, database=None):
+def get_dbsess(type, username=None, password=None, host=None, port=None, database=None, chain_connection=None):
     """
     Crea y devuelve una sesión de base de datos utilizando SQLAlchemy.
 
@@ -113,7 +115,7 @@ def get_dbsess(type, username=None, password=None, host=None, port=None, databas
     Note: ORACLE NO ACTIVADO
     """
     
-    conn = get_dbconn(type=type, username=username, password=password, host=host, port=port, database=database)
+    conn = get_dbconn(type=type, username=username, password=password, host=host, port=port, database=database, chain_connection=chain_connection)
     Session = sessionmaker(bind=conn)
     session = Session()
     return session

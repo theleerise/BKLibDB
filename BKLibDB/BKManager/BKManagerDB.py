@@ -11,7 +11,7 @@ class BKManagerDB(BKManager):
     y agrega manejo automático de finalización y transacciones.
     """
 
-    def __init__(self, model=None, db_type=None, session=None, **kwargs):
+    def __init__(self, model=None, db_type=None, session=None, chain_connection=None, **kwargs):
         """
         Inicializa BKManagerDB con una sesión activa y un modelo opcional.
 
@@ -21,7 +21,7 @@ class BKManagerDB(BKManager):
         """
         ### Si no se pasa una sesión explícita, intenta crearla con los parámetros.
         if session is None and db_type:
-            session = self.open_session(db_type=db_type, **kwargs)
+            session = self.open_session(db_type=db_type, chain_connection=chain_connection, **kwargs)
         
         super().__init__(session=session, model=model)
 
