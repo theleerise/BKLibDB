@@ -86,7 +86,7 @@ class BKManagerDB(BKManager):
             self.session.rollback()  # En caso de error, revierte la transacción
             raise e
     
-    def insert(self, sql, params):
+    def insert(self, sql=None, params=None, objmodel=None):
         """
         Ejecuta una inserción con manejo automático de transacciones.
 
@@ -97,8 +97,11 @@ class BKManagerDB(BKManager):
         Returns:
             int: Número de filas afectadas.
         """
-        if sql is None or params is None:
+        if sql is None or params is None and objmodel is None:
             sql, params = self.get_sql_insert()
+        if objmodel:
+            sql, _ = self.get_sql_insert()
+            params = objmodel.to_dict()
             
         try:
             if hasattr(self, "before_insert"):
@@ -112,7 +115,7 @@ class BKManagerDB(BKManager):
             self.session.rollback()  # Revertir transacción en caso de error
             raise e
 
-    def update(self, sql, params):
+    def update(self, sql=None, params=None, objmodel=None):
         """
         Ejecuta una actualización con manejo automático de transacciones.
 
@@ -123,8 +126,11 @@ class BKManagerDB(BKManager):
         Returns:
             int: Número de filas afectadas.
         """
-        if sql is None or params is None:
-            sql, params = self.get_sql_insert()
+        if sql is None or params is None and objmodel is None:
+            sql, params = self.get_sql_update()
+        if objmodel:
+            sql, _ = self.get_sql_update()
+            params = objmodel.to_dict()
             
         try:
             if hasattr(self, "before_update"):
@@ -138,7 +144,7 @@ class BKManagerDB(BKManager):
             self.session.rollback()  # Revertir transacción en caso de error
             raise e
 
-    def delete(self, sql, params):
+    def delete(self, sql=None, params=None, objmodel=None):
         """
         Ejecuta un borrado con manejo automático de transacciones.
 
@@ -149,9 +155,12 @@ class BKManagerDB(BKManager):
         Returns:
             int: Número de filas afectadas.
         """
-        if sql is None or params is None:
-            sql, params = self.get_sql_insert()
-            
+        if sql is None or params is None and objmodel is None:
+            sql, params = self.get_sql_delete()
+        if objmodel:
+            sql, _ = self.get_sql_delete()
+            params = objmodel.to_dict()
+                        
         try:
             if hasattr(self, "before_delete"):
                 self.before_delete(params)  # Hook antes del borrado
