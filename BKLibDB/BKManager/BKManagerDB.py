@@ -3,6 +3,7 @@
 
 from BKLibDB.BKManager.BKManager_Base import BKManager
 from abc import ABC, abstractmethod
+from sqlalchemy.sql import text
 
 
 class BKManagerDB(BKManager):
@@ -235,3 +236,86 @@ class BKManagerDB(BKManager):
         Sobrescribir en subclases según sea necesario.
         """
         pass
+    
+    def call_procedure(self, proc_name, params=None):
+        """
+        Ejecuta un procedimiento almacenado adaptándose al tipo de base de datos.
+
+        Args:
+            proc_name (str): Nombre del procedimiento.
+            params (dict, opcional): Parámetros a pasar.
+
+        Returns:
+            None
+        """
+        params = params or {}
+        placeholders = ', '.join(f':{k}' for k in params.keys())
+
+        if self.db_type == "ORACLE":
+            sql = f"BEGIN {proc_name}({placeholders}); END;"
+        elif self.db_type == "POSTGRESQL":
+            sql = f"CALL {proc_name}({placeholders});"
+        elif self.db_type == "SQLSERVER":
+            sql = f"EXEC {proc_name} " + ', '.join(f"@{k} = :{k}" for k in params.keys())
+        elif self.db_type == "MYSQL":
+            sql = f"CALL {proc_name}({placeholders});"
+        else:
+            raise NotImplementedError(f"call_procedure no implementado para {self.db_type}")
+
+        self.session.execute(text(sql), params)
+        self.session.commit()
+    
+    def call_function(self, func_name, params=None):
+        """
+        Ejecuta una función almacenada y retorna su resultado, adaptándose al tipo de base de datos.
+    
+        Args:
+            func_name (str): Nombre de la función.
+            params (dict, opcional): Parámetros a pasar.
+    
+        Returns:
+            Cualquier valor retornado por la función.
+        """
+        params = params or {}
+        placeholders = ', '.join(f':{k}' for k in params.keys())
+    
+        if self.db_type == "ORACLE":
+            sql = f"SELECT {func_name}({placeholders}) AS result FROM DUAL"
+        elif self.db_type == "POSTGRESQL":
+            sql = f"SELECT {func_name}({placeholders}) AS result"
+        elif self.db_type == "SQLSERVER":
+            sql = f"SELECT dbo.{func_name}({placeholders}) AS result"
+        elif self.db_type == "MYSQL":
+            sql = f"SELECT {func_name}({placeholders}) AS result"
+        else:
+            raise NotImplementedError(f"call_function no implementado para {self.db_type}")
+    
+        result = self.session.execute(text(sql), params)
+        return result.scalar()
+    
+    def call_function_multi(self, func_name, params=None):
+        """
+        Ejecuta una función que retorna múltiples columnas/filas.
+    
+        Args:
+            func_name (str): Nombre de la función.
+            params (dict, opcional): Parámetros.
+    
+        Returns:
+            list[dict]: Lista de resultados como diccionarios.
+        """
+        params = params or {}
+        placeholders = ', '.join(f':{k}' for k in params)
+    
+        if self.db_type == "ORACLE":
+            sql = f"SELECT * FROM TABLE({func_name}({placeholders}))"
+        elif self.db_type == "POSTGRESQL":
+            sql = f"SELECT * FROM {func_name}({placeholders})"
+        elif self.db_type == "SQLSERVER":
+            # sql = f"SELECT * FROM dbo.{func_name}({placeholders})"
+            sql = f"SELECT * FROM {self.schema}.{func_name}({placeholders})"
+        else:
+            raise NotImplementedError(f"call_function_multi no implementado para {self.db_type}")
+    
+        result = self.session.execute(text(sql), params)
+        return [row._asdict() for row in result]
